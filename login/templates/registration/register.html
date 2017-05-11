@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block title %}User Registration{% endblock %}
+{% block head %}User Registration{% endblock %}
+{% block content %}
+
+    {% load crispy_forms_tags %}
+
+    <form method="post" action=".">{% csrf_token %}
+        <table border="0">
+            {{ form|crispy }}
+        </table>
+        <input type="submit" value="Register" class="btn btn-primary"/>
+    </form>
+    <a href="/">Login</a>
+{% endblock %}

@@ -14,10 +14,20 @@
 
 from django.conf.urls import include, url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
+from django.contrib.auth.views import logout
+
 
 from polls.views import index
+from login.views import *
 
 urlpatterns = [
     url(r'^$', index),
     url(r'^admin/', include(admin.site.urls)),
+    url(r'^places/', include('places.urls')),
+    url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name="logout"),
+    url(r'^accounts/login/$', auth_views.login, name="login"),  # If user is not login it will redirect to login page
+    url(r'^register/$', register),
+    url(r'^register/success/$', register_success),
+    url(r'^home/$', home),
 ]

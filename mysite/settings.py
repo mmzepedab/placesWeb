@@ -55,6 +55,10 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'polls',
+    'places',
+    'login',
+    'crispy_forms',
+
 )
 
 MIDDLEWARE_CLASSES = (
@@ -143,3 +147,5 @@ USE_TZ = True
 
 STATIC_ROOT = 'static'
 STATIC_URL = '/static/'
+
+CRISPY_TEMPLATE_PACK = 'bootstrap4'

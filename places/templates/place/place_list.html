@@ -1,0 +1,60 @@
+{% extends "base.html" %}
+
+
+
+
+
+{% block title %}
+
+
+          My Places
+{% endblock %}
+{% block head %}My Places{% endblock %}
+{% block head_subtitle %}Here is a list of all your places{% endblock %}
+{% block breadcrumb %}List Place{% endblock %}
+{% block content %}
+
+
+
+    {% if user.is_authenticated %}
+    {% else %}
+        <p>Welcome, new user. Please log in.</p>
+    {% endif %}
+
+
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> Places</h3>
+            </div>
+            <div class="panel-body">
+
+                <ul class="list-group">
+
+                {% for place in places %}
+                        <li class="list-group-item">
+                             {{ forloop.counter }}. &emsp; <a href="{% url 'detail_place' place.id %}">{{ place.name }}</a>
+                        </li>
+
+                {% endfor %}
+                </ul>
+
+                <div class="text-right">
+                    <a href="{% url 'create_place' %}">Create <i class="fa fa-arrow-circle-right"></i></a>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+
+
+
+
+
+
+
+
+
+
+{% endblock %}

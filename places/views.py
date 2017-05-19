@@ -1,4 +1,5 @@
 from django.shortcuts import render
+from django.core.urlresolvers import reverse_lazy
 
 # Create your views here.
 
@@ -11,7 +12,7 @@ from django.contrib.auth import logout
 
 from django.views.generic.detail import DetailView
 
-from .forms import CategoryForm, PlaceForm
+from .forms import CategoryForm, PlaceForm, OfferForm
 from .models import Category, Place
 
 @login_required
@@ -60,12 +61,15 @@ def place_list(request):
     return render(request, "place/place_list.html",  context)
 
 def place_create(request):
-    form = PlaceForm(request.POST or None)
-    if form.is_valid():
-        instance = form.save(commit=False)
-        instance.user = request.user
-        instance.save()
-        return HttpResponseRedirect(reverse('list_place'))
+    if request.method == 'POST':
+        form = PlaceForm(request.POST or None, request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            return HttpResponseRedirect(reverse('list_place'))
+    else:
+        form = PlaceForm(request.POST or None)
 
     context = {
         "place_form": form,
@@ -73,15 +77,28 @@ def place_create(request):
 
     return render(request, "place/place_create.html",  context)
 
-def place_delete(request):
-    Place.objects.filter(id=6).delete()
-    return HttpResponseRedirect(reverse('list_place'))
+def place_update(request, pk):
+    instance = get_object_or_404(Place, id=pk)
+    if request.method == 'POST':
+        form = PlaceForm(request.POST or None, request.FILES or None, instance=instance)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            return HttpResponseRedirect(reverse('list_place'))
+    else:
+        form = PlaceForm(request.POST or None, request.FILES or None, instance=instance)
 
+    form.helper.form_action = reverse_lazy('update_place', kwargs={'pk': pk}, )
     context = {
-        "form": form,
+        "place_form": form,
     }
 
-    return render(request, "place/place_create.html",  context)
+    return render(request, "place/place_update.html",  context)
+
+def place_delete(request, pk):
+    Place.objects.filter(id=pk).delete()
+    return HttpResponseRedirect(reverse('list_place'))
 
 @login_required
 def logoutView(request):
@@ -93,3 +110,43 @@ def logoutView(request):
 class PlaceDetailView(DetailView):
     model = Place
     template_name = 'place/place_detail.html'
+
+
+# Offer Views
+def add_offer_to_place(request, pk):
+    place = get_object_or_404(Place, pk=pk)
+    if request.method == 'POST':
+        form = OfferForm(request.POST or None, request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.place = place
+            instance.user = request.user
+            instance.save()
+            return HttpResponseRedirect(reverse('list_place'))
+    else:
+        form = OfferForm(request.POST or None)
+
+    context = {
+        "offer_form": form,
+        "place": place
+    }
+
+    return render(request, "offer/offer_create.html",  context)
+
+
+def offer_create(request, place_id):
+    if request.method == 'POST':
+        form = OfferForm(request.POST or None, request.FILES)
+        if form.is_valid():
+            instance = form.save(commit=False)
+            instance.user = request.user
+            instance.save()
+            return HttpResponseRedirect(reverse('list_place'))
+    else:
+        form = OfferForm(request.POST or None)
+
+    context = {
+        "offer_form": form,
+    }
+
+    return render(request, "offer/offer_create.html",  context)

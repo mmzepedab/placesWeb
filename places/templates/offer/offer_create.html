@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+
+
+
+{% block title %}Create Offer{% endblock %}
+{% block head %}Create Offer{% endblock %}
+{% block head_subtitle %}Here you can create a offers for your place{% endblock %}
+{% block breadcrumb %}Create Offer{% endblock %}
+{% block content %}
+
+
+
+
+
+    <div class="col-lg-12">
+        <div class="panel panel-default">
+            <div class="panel-heading">
+                <h3 class="panel-title"><i class="fa fa-long-arrow-right fa-fw"></i> Offer Information {{ o.name }}</h3>
+            </div>
+            <div class="panel-body">
+
+                {% if offer_form.errors %}
+                <div class="alert alert-danger">
+                  <strong>Alert!</strong> Please validate all fields before submitting.
+                </div>
+                {% endif %}
+
+                {% load crispy_forms_tags %}
+                {% crispy offer_form %}
+
+
+
+            </div>
+        </div>
+    </div>
+
+
+<script>
+
+        $( function() {
+            $( "#id_start_date" ).datepicker();
+            $( "#id_end_date" ).datepicker();
+          } );
+
+        </script>
+
+
+
+{% endblock %}

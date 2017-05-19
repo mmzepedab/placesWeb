@@ -1,11 +1,14 @@
 from django import forms
-from models import Place, Category
+from models import Place, Category, Offer
 from django.utils.translation import ugettext_lazy as _
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Layout, Fieldset, ButtonHolder, Submit, HTML, Field, Div
 from django.core.urlresolvers import reverse_lazy
 from django.forms.widgets import Input
 from django.utils.safestring import mark_safe
+from django.core.files.images import get_image_dimensions
+
+from django.contrib.admin.widgets import AdminDateWidget
 
 
 class RegistrationForm(forms.Form):
@@ -49,7 +52,7 @@ class GoogleMapWidget(Input):
     """
     class Media:
         js = (
-            'http://maps.google.com/maps/api/js?sensor=true&key=AIzaSyCmz7oHEd5LqSGdal0vtfWUOkxn9GSUKt4',
+            'https://maps.googleapis.com/maps/api/js?key=AIzaSyCmz7oHEd5LqSGdal0vtfWUOkxn9GSUKt4',
             'places/js/googlemap_location.js',
         )
 
@@ -128,15 +131,54 @@ class PlaceForm(forms.ModelForm):
         fields = '__all__'
         exclude = ['user']
 
+    image = forms.ImageField(required=False)
+
+
+    def clean_image(self):
+        image = self.cleaned_data.get("image")
+        if not image:
+            raise forms.ValidationError("No image!")
+        else:
+            w, h = get_image_dimensions(image)
+            if w != 500:
+                raise forms.ValidationError("The image is %i pixel wide. It's supposed to be 100px" % w)
+            if h != 500:
+                raise forms.ValidationError("The image is %i pixel high. It's supposed to be 100px" % h)
+        return image
+
+    def clean_image_thumbnail(self):
+        image = self.cleaned_data.get("image_thumbnail")
+        if not image:
+            raise forms.ValidationError("No image!")
+        else:
+            w, h = get_image_dimensions(image)
+            if w != 200:
+                raise forms.ValidationError("The image is %i pixel wide. It's supposed to be 100px" % w)
+            if h != 200:
+                raise forms.ValidationError("The image is %i pixel high. It's supposed to be 100px" % h)
+        return image
+
+    def clean_image_cover(self):
+        image = self.cleaned_data.get("image_cover")
+        if not image:
+            raise forms.ValidationError("No image!")
+        else:
+            w, h = get_image_dimensions(image)
+            if w != 640:
+                raise forms.ValidationError("The image is %i pixel wide. It's supposed to be 640px" % w)
+            if h != 360:
+                raise forms.ValidationError("The image is %i pixel high. It's supposed to be 360px" % h)
+        return image
+
 
     address = forms.CharField(
         widget=forms.Textarea,
         label="Address",
-        max_length=250,
+        max_length=200,
         required=True,
     )
 
-    decription = forms.CharField(
+    description = forms.CharField(
         label="Description",
         max_length=80,
         required=False,
@@ -151,33 +193,88 @@ class PlaceForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         self.helper = FormHelper()
         self.helper.form_id = 'id-placeForm'
+        self.helper.html5_required = False
         self.helper.form_method = 'post'  # this line sets your form's method to post
-        self.helper.form_action = reverse_lazy('create_place')  # this line sets the form action
+        #self.helper.form_action = reverse_lazy('update_place', kwargs={'pk': 14},)  # this line sets the form action
         self.helper.layout = Layout(
             Fieldset(
                 'Fill all fields to create a new place',
+                #Div(
+                #    Div(Field('name', onkeyup="showAlert()"), css_class='col-md-6', ),
+                #    Div('place_type_id', css_class='col-md-6', ),
+                #    css_class='row',
+                #),
                 Div(
-                    Div(Field('name', onkeyup="showAlert()"), css_class='col-md-6', ),
+                    Div('name', css_class='col-md-6', ),
                     Div('place_type_id', css_class='col-md-6', ),
                     css_class='row',
                 ),
                 HTML("""<p>We use notes to get better, <strong>please help us {{ request.user.username }}</strong></p>"""),
                 'description',
                 Div(
-                    Div(Field('phone_number', onkeyup="showAlert()"), css_class='col-md-6', ),
+                    Div('phone_number', css_class='col-md-6', ),
                     Div('email', css_class='col-md-6', ),
                     css_class='row',
                 ),
                 Field('address', rows="4", cols="50", type="text"),
+                Field('latitude', type="hidden"),
+                Field('longitude', type="hidden"),
                 'search',
-                Field('latitude', readonly=True),
-                Field('longitude', readonly=True),
                 'image',
+                HTML("""<p>This image must be  <strong>100px</strong> by <strong>100px</strong></p>"""),
                 'image_thumbnail',
+                HTML("""<p>This image must be  <strong>100px</strong> by <strong>100px</strong></p>"""),
                 'image_cover',
+                HTML("""<p>This image must be  <strong>640px</strong> by <strong>360px</strong></p>"""),
             ),
             ButtonHolder(
-                Submit('submit', 'Create', css_class='button white')
+                Submit('submit', 'Save', css_class='button white')
             )
         )
         super(PlaceForm, self).__init__(*args, **kwargs)
+
+
+
+class OfferForm(forms.ModelForm):
+    class Meta:
+        model = Offer
+        fields = '__all__'
+        exclude = ['place','offer_type', 'image_thumbnail', 'image']
+
+    description = forms.CharField(
+        widget=forms.Textarea,
+        label="Description",
+        max_length=200,
+        required=True,
+    )
+
+
+
+    def __init__(self, *args, **kwargs):
+        self.helper = FormHelper()
+        self.helper.form_id = 'id-offerForm'
+        self.helper.html5_required = False
+        self.helper.form_method = 'post'  # this line sets your form's method to post
+        #self.helper.form_action = reverse_lazy('update_place', kwargs={'pk': 14},)  # this line sets the form action
+        self.helper.layout = Layout(
+            Fieldset(
+                'Fill all fields to create a new offer for {{ place.name }} ',
+                #Div(
+                #    Div(Field('name', onkeyup="showAlert()"), css_class='col-md-6', ),
+                #    Div('place_type_id', css_class='col-md-6', ),
+                #    css_class='row',
+                #),
+                'name',
+                Field('description', rows="4", cols="50", type="text"),
+                Div(
+                    Div(Field('start_date', placeholder='MM/DD/YYYY'), css_class='col-md-6'),
+                    Div(Field('end_date', placeholder='MM/DD/YYYY'), css_class='col-md-6', ),
+                    css_class='row',
+                ),
+                HTML("""<p>This will create an offer for <strong>{{ place.name }}</strong></p>"""),
+            ),
+            ButtonHolder(
+                Submit('submit', 'Save', css_class='button white')
+            )
+        )
+        super(OfferForm, self).__init__(*args, **kwargs)

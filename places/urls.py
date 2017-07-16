@@ -1,6 +1,13 @@
-from django.conf.urls import url
+from django.conf.urls import url, include
 
 from . import views
+
+from rest_framework import routers
+
+router = routers.DefaultRouter()
+router.register(r'users', views.UserViewSet)
+router.register(r'groups', views.GroupViewSet)
+router.register(r'places', views.PlaceViewSet)
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),
@@ -13,5 +20,9 @@ urlpatterns = [
     url(r'^place/delete/(?P<pk>\d+)/$', views.place_delete, name='delete_place'),
     # Offer urls
     url(r'^place/(?P<pk>\d+)/offer/create/$', views.add_offer_to_place, name='add_offer_to_place'),
-    url(r'^offer/create/$', views.offer_create, name='create_offer')
+    url(r'^offer/create/$', views.offer_create, name='create_offer'),
+    url(r'^offer/(?P<pk>\d+)$', views.OfferDetailView.as_view(), name='detail_offer'),
+    url(r'^offer/delete/(?P<pk>\d+)/$', views.offer_delete, name='delete_offer'),
+    url(r'^api/', include(router.urls)),
+    url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]

@@ -41,10 +41,10 @@ class Offer(models.Model):
 	description = models.CharField(max_length=200)
 	start_date = models.DateField()
 	end_date = models.DateField()
-	place = models.ForeignKey(Place, on_delete=models.CASCADE)
+	place = models.ForeignKey(Place, related_name='offers', on_delete=models.CASCADE)
 	offer_type = models.IntegerField(default=0)
-	image_thumbnail = models.CharField(max_length=200)
-	image = models.CharField(max_length=200)
+	image_thumbnail = models.ImageField(upload_to='images/thumbnails')
+	image = models.ImageField(upload_to='images/')
 	def __str__(self):
 		return self.name
 

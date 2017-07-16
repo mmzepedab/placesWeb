@@ -4,7 +4,23 @@
 {% block title %}Update Place{% endblock %}
 {% block head %}Update Place{% endblock %}
 {% block head_subtitle %}Edit your information{% endblock %}
-{% block breadcrumb %}Update Place{% endblock %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{% url 'list_place' %}">Home</a>
+        </li>
+
+        <li>
+            <i class="fa fa-list"></i>
+            <a href="{% url 'detail_place' place.pk %}">Place Detail</a>
+        </li>
+
+        <li class="active">
+            <i class="fa fa-table"></i> Update Place
+        </li>
+    </ol>
+{% endblock %}
 {% block content %}
 
 

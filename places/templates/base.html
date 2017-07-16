@@ -210,16 +210,11 @@
                                     <h1 class="page-header">
                                         {% block head %}{% endblock %} <small>{% block head_subtitle %}{% endblock %}</small>
                                     </h1>
-                                    <ol class="breadcrumb">
-                                        <li>
-                                            <i class="fa fa-home"></i>
-                                            <a href="{% url 'list_place' %}">Home</a>
-                                        </li>
 
-                                        <li class="active">
-                                            <i class="fa fa-table"></i> {% block breadcrumb %}{% endblock %}
-                                        </li>
-                                    </ol>
+                                    {% block breadcrumb %}
+                                    {% endblock %}
+
+
                                 </div>
                             <!-- /.row -->
 

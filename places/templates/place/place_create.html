@@ -4,7 +4,34 @@
 {% block title %}Create Place{% endblock %}
 {% block head %}Create Place{% endblock %}
 {% block head_subtitle %}Here you can create a new place{% endblock %}
-{% block breadcrumb %}Create Place{% endblock %}
+{% block breadcrumb %}
+
+<ol class="breadcrumb">
+                                        <li>
+                                            <i class="fa fa-home"></i>
+                                            <a href="{% url 'list_place' %}">Home</a>
+                                        </li>
+
+                                        <li>
+                                            <i class="fa fa-list"></i>
+                                            <a href="{% url 'list_place' %}">List Places</a>
+                                        </li>
+
+                                        <li class="active">
+                                            <i class="fa fa-table"></i>
+                                            <a href="{% url 'detail_place' object.place.pk %}"> {{ object.place.name }}</a>
+                                        </li>
+
+                                        <li class="active">
+                                            <i class="fa fa-table"></i> Create Place
+                                        </li>
+                                    </ol>
+
+{% endblock %}
+
+
+
+
 {% block content %}
 
 

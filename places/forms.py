@@ -239,7 +239,19 @@ class OfferForm(forms.ModelForm):
     class Meta:
         model = Offer
         fields = '__all__'
-        exclude = ['place','offer_type', 'image_thumbnail', 'image']
+        exclude = ['place', 'offer_type']
+
+    def clean_image(self):
+        image = self.cleaned_data.get("image")
+        if not image:
+            raise forms.ValidationError("No image!")
+        else:
+            w, h = get_image_dimensions(image)
+            if w != 200:
+                raise forms.ValidationError("The image is %i pixel wide. It's supposed to be 200px" % w)
+            if h != 200:
+                raise forms.ValidationError("The image is %i pixel high. It's supposed to be 200px" % h)
+        return image
 
     description = forms.CharField(
         widget=forms.Textarea,
@@ -271,6 +283,9 @@ class OfferForm(forms.ModelForm):
                     Div(Field('end_date', placeholder='MM/DD/YYYY'), css_class='col-md-6', ),
                     css_class='row',
                 ),
+                'image',
+                HTML("""<p>This image must be  <strong>200px</strong> by <strong>200px</strong></p>"""),
+                'image_thumbnail',
                 HTML("""<p>This will create an offer for <strong>{{ place.name }}</strong></p>"""),
             ),
             ButtonHolder(

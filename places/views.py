@@ -13,7 +13,11 @@ from django.contrib.auth import logout
 from django.views.generic.detail import DetailView
 
 from .forms import CategoryForm, PlaceForm, OfferForm
-from .models import Category, Place
+from .models import Category, Place, Offer
+
+from django.contrib.auth.models import User, Group
+from rest_framework import viewsets
+from serializers import UserSerializer, GroupSerializer, PlaceSerializer
 
 @login_required
 def index(request):
@@ -92,6 +96,7 @@ def place_update(request, pk):
     form.helper.form_action = reverse_lazy('update_place', kwargs={'pk': pk}, )
     context = {
         "place_form": form,
+        "place" : instance
     }
 
     return render(request, "place/place_update.html",  context)
@@ -113,6 +118,11 @@ class PlaceDetailView(DetailView):
 
 
 # Offer Views
+class OfferDetailView(DetailView):
+    model = Offer
+    template_name = 'offer/offer_detail.html'
+
+
 def add_offer_to_place(request, pk):
     place = get_object_or_404(Place, pk=pk)
     if request.method == 'POST':
@@ -122,7 +132,7 @@ def add_offer_to_place(request, pk):
             instance.place = place
             instance.user = request.user
             instance.save()
-            return HttpResponseRedirect(reverse('list_place'))
+            return HttpResponseRedirect(reverse('detail_place', kwargs={'pk': pk}))
     else:
         form = OfferForm(request.POST or None)
 
@@ -146,7 +156,36 @@ def offer_create(request, place_id):
         form = OfferForm(request.POST or None)
 
     context = {
-        "offer_form": form,
+        "offer_form": form
     }
 
     return render(request, "offer/offer_create.html",  context)
+
+def offer_delete(request, pk):
+    Offer.objects.filter(id=pk).delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+# API
+class UserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows users to be viewed or edited.
+    """
+    queryset = User.objects.all().order_by('-date_joined')
+    serializer_class = UserSerializer
+
+
+class GroupViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Group.objects.all()
+    serializer_class = GroupSerializer
+
+
+class PlaceViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = Place.objects.all()
+    serializer_class = PlaceSerializer

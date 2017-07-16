@@ -6,7 +6,29 @@
 {% block title %}Create Offer{% endblock %}
 {% block head %}Create Offer{% endblock %}
 {% block head_subtitle %}Here you can create a offers for your place{% endblock %}
-{% block breadcrumb %}Create Offer{% endblock %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li>
+            <i class="fa fa-home"></i>
+            <a href="{% url 'list_place' %}">Home</a>
+        </li>
+
+        <li>
+            <i class="fa fa-list"></i>
+            <a href="{% url 'detail_place' place.pk %}"> {{ place.name }}</a>
+        </li>
+
+        <li class="active">
+            <i class="fa fa-table"></i> Create Offer
+        </li>
+    </ol>
+{% endblock %}
+
+
+
+
+
+
 {% block content %}
 
 

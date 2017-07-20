@@ -132,6 +132,8 @@ class PlaceForm(forms.ModelForm):
         exclude = ['user']
 
     image = forms.ImageField(required=False)
+    #image_thumbnail = forms.ImageField(required=False)
+    #image_cover = forms.ImageField(required=False)
 
 
     def clean_image(self):

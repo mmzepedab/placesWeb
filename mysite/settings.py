@@ -62,10 +62,13 @@ INSTALLED_APPS = (
 
 )
 
+
 REST_FRAMEWORK = {
-    'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.IsAdminUser',
-    ],
+    #'DEFAULT_PERMISSION_CLASSES': [
+    #    'rest_framework.permissions.IsAdminUser',
+    #],
+    'DEFAULT_AUTHENTICATION_CLASSES': [],
+    'DEFAULT_PERMISSION_CLASSES': [],
     'PAGE_SIZE': 10
 }
 
@@ -111,8 +114,8 @@ if os.getenv('SERVER_SOFTWARE', '').startswith('Google App Engine'):
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.mysql',
-            'HOST': '/cloudsql/placesweb-158223:us-central1:polls-instance',
-            'NAME': 'polls',
+            'HOST': '/cloudsql/placesweb-158223:us-central1:places-instance',
+            'NAME': 'places',
             'USER': 'root',
             'PASSWORD': 'Q1w2e3r4t5@',
         }

@@ -13,11 +13,11 @@ from django.contrib.auth import logout
 from django.views.generic.detail import DetailView
 
 from .forms import CategoryForm, PlaceForm, OfferForm
-from .models import Category, Place, Offer
+from .models import Category, Place, Offer, AppUser
 
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets
-from serializers import UserSerializer, GroupSerializer, PlaceSerializer
+from serializers import UserSerializer, GroupSerializer, PlaceSerializer, AppUserSerializer
 
 @login_required
 def index(request):
@@ -189,3 +189,11 @@ class PlaceViewSet(viewsets.ModelViewSet):
     """
     queryset = Place.objects.all()
     serializer_class = PlaceSerializer
+
+
+class AppUserViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = AppUser.objects.all()
+    serializer_class = AppUserSerializer

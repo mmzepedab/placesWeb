@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import User
+from rest_framework.validators import UniqueValidator
 
 # Create your models here.
 class Category(models.Model):
@@ -9,6 +10,19 @@ class Category(models.Model):
     description = models.CharField(max_length=200)
     def __str__(self):
         return self.name
+
+
+class AppUser(models.Model):
+    full_name = models.CharField(max_length=200)
+    first_name = models.CharField(max_length=200)
+    last_name = models.CharField(max_length=200)
+    email = models.CharField(max_length=200)
+    facebook_id = models.CharField(max_length=200, unique=True, error_messages={'unique':"This User Already Registered"})
+    profile_picture = models.CharField(max_length=200)
+    #my_places = models.ManyToManyField(Place, through='PlaceSubscriber')
+
+    def __str__(self):
+        return self.full_name
 
 
 class Place(models.Model):
@@ -31,6 +45,7 @@ class Place(models.Model):
     latitude = models.CharField(max_length=200)
     longitude = models.CharField(max_length=200)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='places', default=1)
+    subscribers = models.ManyToManyField(AppUser, through='PlaceSubscriber')
     def __str__(self):              # __unicode__ on Python
    		return self.name
 
@@ -51,3 +66,7 @@ class Offer(models.Model):
 		ordering = ('name',)
 
 
+class PlaceSubscriber(models.Model):
+    place = models.ForeignKey(Place, on_delete=models.CASCADE)
+    user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
+    date_subscribed = models.DateField()

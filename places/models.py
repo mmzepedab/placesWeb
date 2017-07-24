@@ -66,6 +66,8 @@ class Offer(models.Model):
 		ordering = ('name',)
 
 
+
+
 class PlaceSubscriber(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     user = models.ForeignKey(AppUser, on_delete=models.CASCADE)

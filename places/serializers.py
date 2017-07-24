@@ -3,6 +3,7 @@ from .models import Place, AppUser, Offer
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.db import models
+from django.conf import settings
 
 
 
@@ -38,6 +39,15 @@ class AppUserSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class OfferSerializer(serializers.HyperlinkedModelSerializer):
+    place_name = serializers.SerializerMethodField()
+    def get_place_name(self, obj):
+        return obj.place.name
+
+    place_image_thumbnail = serializers.SerializerMethodField()
+
+    def get_place_image_thumbnail(self, obj):
+        return '%s/%s' % (settings.MEDIA_ROOT, obj.place.image_thumbnail)
+
     class Meta:
         model = Offer
-        fields = ('name', 'description', 'start_date', 'end_date', 'place', 'offer_type', 'image_thumbnail','image')
+        fields = ('name', 'description', 'start_date', 'end_date', 'place', 'place_name', 'place_image_thumbnail', 'offer_type', 'image_thumbnail','image')

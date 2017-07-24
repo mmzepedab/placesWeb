@@ -13,7 +13,7 @@ from django.contrib.auth import logout
 from django.views.generic.detail import DetailView
 
 from .forms import CategoryForm, PlaceForm, OfferForm
-from .models import Category, Place, Offer, AppUser
+from .models import Category, Place, Offer, AppUser, PlaceSubscriber
 
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, generics
@@ -163,6 +163,13 @@ def offer_create(request, place_id):
 
 def offer_delete(request, pk):
     Offer.objects.filter(id=pk).delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def place_subscriber_delete(request):
+    place_id = request.GET.get('place_id', '')
+    user_id = request.GET.get('user_id', '')
+    q = PlaceSubscriber.objects.filter(place=place_id).filter(user=user_id)
+    q.delete()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 

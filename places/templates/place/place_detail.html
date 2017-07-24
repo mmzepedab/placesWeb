@@ -148,6 +148,51 @@
 
             </div>
 
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="panel-heading clearfix">
+                      <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Subscribers</h4>
+                          <div class="pull-right">
+                            <a href="{% url 'add_offer_to_place' pk=place.pk %}" class="btn btn-success btn-sm"><i class="fa fa-plus fa-fw"></i></a>
+                          </div>
+                    </div>
+                </div>
+                <div class="panel-body">
+
+                    <div class="list-group">
+                    {% for o in place.subscribers.all %}
+
+                        <a href="{% url 'detail_offer' o.id %}" class="list-group-item clearfix">
+                                <span class="pull-left">
+                                    {{ forloop.counter }}. &emsp; <strong>{{ o.full_name }}</strong> {{ o.email }}
+                                </span>
+                                <span class="pull-right">
+                                  <span class="btn btn-xs btn-primary" onclick="updatePlace({{ place.id }}); return false;">Send Message</span>
+                                    <span class="btn btn-xs btn-danger" onclick="deletePlaceUser({{ place.id }}, {{ o.id }}); return false;  ">
+                                        Unsubscribe
+                                    </span>
+
+                                  </button>
+                                </span>
+
+                        </a>
+
+
+
+
+
+
+
+
+                    {% endfor %}
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
 
 
 
@@ -196,6 +241,16 @@ function myMap() {
         }
     }
 
+
+    function deletePlaceUser(placeId, userId){
+        var ask = window.confirm("Are you sure you want to unsubscribe this user from your place?");
+        if (ask) {
+            //window.alert("This post was successfully deleted.");
+
+            window.location.replace('/places/placeSubscriber/delete/?place_id='+placeId+'&user_id='+userId);
+
+        }
+    }
 
 </script>
 

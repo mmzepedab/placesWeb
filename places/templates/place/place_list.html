@@ -65,7 +65,7 @@
                                 </span>
                                 <span class="pull-left">
                                     <h4> {{ place.name }}</h4>
-                                     <p>Offers: {{ place.offers.count }} </p>
+                                    <p>Offers: {{ place.offers.count }} | Subscribers: {{ place.subscribers.count }}</p>
                                 </span>
                                 <span class="pull-right">
                                   <span class="btn btn-xs btn-primary" onclick="updatePlace({{ place.id }}); return false;">Edit</span>

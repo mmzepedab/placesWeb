@@ -70,3 +70,9 @@ class PlaceSubscriber(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
     date_subscribed = models.DateField()
+
+    class Meta:
+        unique_together = ('place', 'user')
+
+    def __str__(self):
+        return '%s %s' % (self.place, self.user)

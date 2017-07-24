@@ -129,11 +129,11 @@ class PlaceForm(forms.ModelForm):
     class Meta:
         model = Place
         fields = '__all__'
-        exclude = ['user']
+        exclude = ['user', 'subscribers']
 
     image = forms.ImageField(required=False)
-    #image_thumbnail = forms.ImageField(required=False)
-    #image_cover = forms.ImageField(required=False)
+    image_thumbnail = forms.ImageField(required=False)
+    image_cover = forms.ImageField(required=False)
 
 
     def clean_image(self):

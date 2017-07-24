@@ -16,8 +16,8 @@ from .forms import CategoryForm, PlaceForm, OfferForm
 from .models import Category, Place, Offer, AppUser
 
 from django.contrib.auth.models import User, Group
-from rest_framework import viewsets
-from serializers import UserSerializer, GroupSerializer, PlaceSerializer, AppUserSerializer
+from rest_framework import viewsets, generics
+from serializers import UserSerializer, GroupSerializer, PlaceSerializer, AppUserSerializer, OfferSerializer
 
 @login_required
 def index(request):
@@ -197,3 +197,10 @@ class AppUserViewSet(viewsets.ModelViewSet):
     """
     queryset = AppUser.objects.all()
     serializer_class = AppUserSerializer
+
+class PlaceOffersList(viewsets.ModelViewSet):
+    serializer_class = OfferSerializer
+
+    def get_queryset(self):
+        place_id = self.request.query_params.get('place_id', None)
+        return Offer.objects.filter(place_id=place_id)

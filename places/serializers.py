@@ -1,5 +1,5 @@
 from django.contrib.auth.models import User, Group
-from .models import Place, AppUser, Offer
+from .models import Place, AppUser, Offer, PlaceSubscriber
 from rest_framework import serializers
 from rest_framework.validators import UniqueValidator
 from django.db import models
@@ -55,3 +55,10 @@ class OfferSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Offer
         fields = ('name', 'description', 'start_date', 'end_date', 'place', 'place_name', 'place_image_thumbnail', 'place_subscribers_count' ,'offer_type', 'image_thumbnail','image')
+
+
+
+class PlaceSubscriberSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = PlaceSubscriber
+        fields = ('id', 'place', 'user', 'date_subscribed')

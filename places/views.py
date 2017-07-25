@@ -17,7 +17,10 @@ from .models import Category, Place, Offer, AppUser, PlaceSubscriber
 
 from django.contrib.auth.models import User, Group
 from rest_framework import viewsets, generics
-from serializers import UserSerializer, GroupSerializer, PlaceSerializer, AppUserSerializer, OfferSerializer
+from rest_framework.views import APIView
+from rest_framework.response import Response
+from rest_framework import status
+from serializers import UserSerializer, GroupSerializer, PlaceSerializer, AppUserSerializer, OfferSerializer, PlaceSubscriberSerializer
 
 @login_required
 def index(request):
@@ -223,3 +226,40 @@ class PlaceOffersList(viewsets.ModelViewSet):
     def get_queryset(self):
         place_id = self.request.query_params.get('place_id', None)
         return Offer.objects.filter(place_id=place_id)
+
+
+class PlaceSubscriberViewSet(viewsets.ModelViewSet):
+    queryset = PlaceSubscriber.objects.all()
+    serializer_class = AppUserSerializer
+
+class PlaceSubscriberList(APIView):
+    """
+    Retrieve, update or delete a snippet instance.
+    """
+
+    def get(self, request, format=None):
+        placeSubscribers = PlaceSubscriber.objects.all()
+        serializer = PlaceSubscriberSerializer(placeSubscribers, many=True, context={'request': request})
+        return Response(serializer.data)
+
+class PlaceSubscriberDetail(APIView):
+    """
+    Retrieve, update or delete a snippet instance. Needed parameters ?facebook_id=&place_id=
+    """
+    def put(self, request, format=None):
+        appUser = AppUser.objects.filter(facebook_id=self.request.query_params.get('facebook_id', None)).first()
+        place = Place.objects.filter(id=self.request.query_params.get('place_id', None)).first()
+        placeSubscribers = PlaceSubscriber.objects.filter(user=appUser.id, place=self.request.query_params.get('place_id', None)).first()
+        serializer = PlaceSubscriberSerializer(placeSubscribers , data=request.data)
+        if serializer.is_valid():
+            serializer.save(user=appUser, place=place)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    def delete(self, request, format=None):
+        appUser = AppUser.objects.filter(facebook_id=self.request.query_params.get('facebook_id', None)).first()
+        place = Place.objects.filter(id=self.request.query_params.get('place_id', None)).first()
+        placeSubscribers = PlaceSubscriber.objects.filter(user=appUser.id,
+                                                          place=self.request.query_params.get('place_id', None)).first()
+        placeSubscribers.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)

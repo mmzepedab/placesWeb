@@ -249,10 +249,10 @@ class OfferForm(forms.ModelForm):
             raise forms.ValidationError("No image!")
         else:
             w, h = get_image_dimensions(image)
-            if w != 100:
-                raise forms.ValidationError("The image is %i pixel wide. It's supposed to be 200px" % w)
-            if h != 100:
-                raise forms.ValidationError("The image is %i pixel high. It's supposed to be 200px" % h)
+            if w > 500:
+                raise forms.ValidationError("The image is %i pixel wide. It's supposed to be greater than 500px" % w)
+            if h > 500:
+                raise forms.ValidationError("The image is %i pixel high. It's supposed to be greater than 500px" % h)
         return image
 
     description = forms.CharField(

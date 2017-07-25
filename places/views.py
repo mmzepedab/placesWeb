@@ -205,6 +205,18 @@ class AppUserViewSet(viewsets.ModelViewSet):
     queryset = AppUser.objects.all()
     serializer_class = AppUserSerializer
 
+    def get_object(self):
+        if self.request.method == 'PUT':
+            appUser = AppUser.objects.filter(facebook_id=self.request.query_params.get('facebook_id', None)).first()
+            #appUser = AppUser.objects.filter(facebook_id=self.request.GET.get("facebook_id")).first()
+            if appUser:
+                return appUser
+            else:
+                return AppUser(facebook_id=self.request.query_params.get('facebook_id', None))
+                #return AppUser(facebook_id=self.kwargs.get('facebook_id'))
+        else:
+            return super(AppUserViewSet, self).get_object()
+
 class PlaceOffersList(viewsets.ModelViewSet):
     serializer_class = OfferSerializer
 

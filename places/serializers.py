@@ -34,7 +34,7 @@ class PlaceSerializer(serializers.HyperlinkedModelSerializer):
 class AppUserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AppUser
-        fields = ('full_name', 'first_name', 'last_name', 'email', 'facebook_id', 'profile_picture')
+        fields = ('id', 'full_name', 'first_name', 'last_name', 'email', 'facebook_id', 'profile_picture')
 
 
 
@@ -43,11 +43,15 @@ class OfferSerializer(serializers.HyperlinkedModelSerializer):
     def get_place_name(self, obj):
         return obj.place.name
 
-    place_image_thumbnail = serializers.SerializerMethodField()
+    place_subscribers_count = serializers.SerializerMethodField()
+    def get_place_subscribers_count(self, obj):
+        return obj.place.subscribers.count()
 
+    place_image_thumbnail = serializers.SerializerMethodField()
     def get_place_image_thumbnail(self, obj):
-        return '%s/%s' % (settings.MEDIA_ROOT, obj.place.image_thumbnail)
+        request = self.context.get('request')
+        return 'http://%s%s%s' % (request.get_host(), settings.MEDIA_URL, obj.place.image_thumbnail)
 
     class Meta:
         model = Offer
-        fields = ('name', 'description', 'start_date', 'end_date', 'place', 'place_name', 'place_image_thumbnail', 'offer_type', 'image_thumbnail','image')
+        fields = ('name', 'description', 'start_date', 'end_date', 'place', 'place_name', 'place_image_thumbnail', 'place_subscribers_count' ,'offer_type', 'image_thumbnail','image')

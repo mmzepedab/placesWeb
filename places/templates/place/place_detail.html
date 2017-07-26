@@ -167,7 +167,7 @@
                                     {{ forloop.counter }}. &emsp; <strong>{{ o.full_name }}</strong> {{ o.email }}
                                 </span>
                                 <span class="pull-right">
-                                  <span class="btn btn-xs btn-primary" onclick="sendPushNotificationToUser({{ o.push_token }}); return false;">Send Message</span>
+                                  <span class="btn btn-xs btn-primary" onclick="sendPushNotificationToUser({{ o.ionic_id }}); return false;">Send Message</span>
                                     <span class="btn btn-xs btn-danger" onclick="deletePlaceUser({{ place.id }}, {{ o.id }}); return false;  ">
                                         Unsubscribe
                                     </span>
@@ -253,18 +253,13 @@ function myMap() {
         }
     }
 
-    function sendPushNotificationToUser(token){
+    function sendPushNotificationToUser(ionic_id){
 
         var message = prompt("Please enter the push notification message", "Message");
+         alert(ionic_id)
 
-        if (message != null) {
-
-            alert("Pushing")
-            $.ajax({
-                url: 'https://api.ionic.io/push/notifications',
-                type: 'post',
-                data: JSON.stringify({
-                      "user_ids": ["4ee11e8f-8b4e-46e7-9da5-854d84fd5d38"],
+         var jsonObject = {
+                      "user_ids": [ionic_id],
                       "profile": "placesappdev",
                       "notification": {
                         "title": "Places App",
@@ -278,7 +273,17 @@ function myMap() {
                           "message": message
                         }
                       }
-                    }),
+                    }
+
+
+
+        if (message != null) {
+
+            alert("Pushing")
+            $.ajax({
+                url: 'https://api.ionic.io/push/notifications',
+                type: 'post',
+                data: JSON.stringify(jsonObject),
                 headers: {
                     "Accept" : "application/json; charset=utf-8",
                     "Content-Type": "application/json; charset=utf-8",

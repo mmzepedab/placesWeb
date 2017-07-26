@@ -20,6 +20,7 @@ class AppUser(models.Model):
     facebook_id = models.CharField(max_length=200, unique=True, error_messages={'unique':"This User Already Registered"})
     profile_picture = models.CharField(max_length=200)
     push_token = models.CharField(max_length=200, default=0)
+    ionic_id = models.CharField(max_length=200, default="")
     #my_places = models.ManyToManyField(Place, through='PlaceSubscriber')
 
     def __str__(self):

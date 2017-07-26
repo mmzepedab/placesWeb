@@ -34,7 +34,7 @@ class PlaceSerializer(serializers.HyperlinkedModelSerializer):
 class AppUserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AppUser
-        fields = ('id', 'full_name', 'first_name', 'last_name', 'email', 'facebook_id', 'profile_picture')
+        fields = ('id', 'full_name', 'first_name', 'last_name', 'email', 'facebook_id', 'profile_picture', 'push_token', 'ionic_id')
 
 
 

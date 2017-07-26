@@ -252,7 +252,7 @@ class PlaceSubscriberDetail(APIView):
         placeSubscribers = PlaceSubscriber.objects.filter(user=appUser.id, place=self.request.query_params.get('place_id', None)).first()
         serializer = PlaceSubscriberSerializer(placeSubscribers , data=request.data)
         if serializer.is_valid():
-            serializer.save(user=appUser, place=place)
+            serializer.save(user=appUser.id, place=place.id)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

@@ -213,6 +213,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
 
         return places
 
+
     def get_serializer_context(self, pk=None):
         context = super(PlaceViewSet, self).get_serializer_context()
         #place = super(PlaceViewSet, self).get_object() this line almost made me quit... It was calling the get object from serializer and for that it needed the pk argument REMEMBER this headache xD
@@ -264,8 +265,24 @@ class PlaceSubscriberViewSet(viewsets.ModelViewSet):
             else:
                 return PlaceSubscriber(user=appUser, place=place, date_subscribed=datetime.strptime('2014-12-04', '%Y-%m-%d').date())
                 #return AppUser(facebook_id=self.kwargs.get('facebook_id'))
+
+                #return Response(status=status.HTTP_204_NO_CONTENT)
+            #else:
+                #return Response(status=status.HTTP_200_OK)
         else:
             return super(PlaceSubscriberViewSet, self).get_object()
+
+    def destroy(self, request, *args, **kwargs):
+        try:
+            appUser = AppUser.objects.filter(facebook_id=self.request.query_params.get('facebook_id', None)).first()
+            place = Place.objects.filter(id=self.request.query_params.get('place_id', None)).first()
+            placeSubscribers = PlaceSubscriber.objects.filter(user=appUser, place=place).first()
+            placeSubscribers.delete()
+        except Response(status=status.HTTP_400_BAD_REQUEST):
+            pass
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
+
 
 class PlaceOffersList(viewsets.ModelViewSet):
     serializer_class = OfferSerializer

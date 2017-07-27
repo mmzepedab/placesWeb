@@ -23,13 +23,18 @@ class PlaceSerializer(serializers.HyperlinkedModelSerializer):
     offers = serializers.StringRelatedField(many=True)
 
     subscriber_count = serializers.SerializerMethodField()
+    is_user_subscribed = serializers.SerializerMethodField()
 
     class Meta:
         model = Place
-        fields = ('id', 'name', 'address', 'email', 'phone_number', 'description', 'image', 'image_thumbnail', 'image_cover', 'offers', 'subscriber_count')
+        fields = ('name', 'address', 'email', 'phone_number', 'description', 'image', 'image_thumbnail', 'image_cover', 'offers', 'subscriber_count', 'is_user_subscribed')
 
     def get_subscriber_count(self, obj):
         return obj.subscribers.count()
+
+    def get_is_user_subscribed(self, obj):
+        is_user_subscribed = self.context.get("is_user_subscribed")
+        return is_user_subscribed
 
 class AppUserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:

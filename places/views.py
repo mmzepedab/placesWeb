@@ -200,9 +200,32 @@ class PlaceViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
     """
-    queryset = Place.objects.all()
+    #queryset = Place.objects.all()
     serializer_class = PlaceSerializer
 
+    def get_queryset(self):
+
+        places = Place.objects.all()
+        # if you need to get subscription by name
+        place_id = self.request.query_params.get('place_id', None)
+        if place_id is not None:
+            places = places.filter(pk=place_id)
+
+        return places
+
+    def get_serializer_context(self, pk=None):
+        context = super(PlaceViewSet, self).get_serializer_context()
+        #place = super(PlaceViewSet, self).get_object() this line almost made me quit... It was calling the get object from serializer and for that it needed the pk argument REMEMBER this headache xD
+        #place = Place.objects.filter(pk=self.kwargs['pk']).first()
+        #if self.kwargs['pk'] is not None:
+        place = Place.objects.filter(pk=self.request.query_params.get('place_id', None)).first()
+        appUser = AppUser.objects.filter(facebook_id=self.request.query_params.get('facebook_id', None)).first()
+        placeSubscribers = PlaceSubscriber.objects.filter(user=appUser, place=place).first()
+        if placeSubscribers:
+           context['is_user_subscribed'] = True
+        else:
+           context['is_user_subscribed'] = False
+        return context
 
 class AppUserViewSet(viewsets.ModelViewSet):
     """

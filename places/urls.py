@@ -9,7 +9,7 @@ from rest_framework import routers
 router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
-router.register(r'places', views.PlaceViewSet)
+router.register(r'places', views.PlaceViewSet, base_name='places')
 router.register(r'appUsers', views.AppUserViewSet)
 router.register(r'placeSubscriber', views.PlaceSubscriberViewSet)
 router.register(r'placeOffers', views.PlaceOffersList, 'place_offers')
@@ -29,6 +29,7 @@ urlpatterns = [
     url(r'^offer/(?P<pk>\d+)$', views.OfferDetailView.as_view(), name='detail_offer'),
     url(r'^offer/delete/(?P<pk>\d+)/$', views.offer_delete, name='delete_offer'),
     url(r'^placeSubscriber/delete/$', views.place_subscriber_delete, name='delete_place_subscriber'),
+    url(r'^places/$', views.PlaceSubscriberViewSet, name='list_places_api'),
     #url(r'^api/placeSubscriber/$', views.PlaceSubscriberDetail.as_view()),
     #url(r'^api/place/(?P<place_id>.+)/offers/$', PlaceOffersList.as_view(), name='place_offer_view'),
     url(r'^api/', include(router.urls)),

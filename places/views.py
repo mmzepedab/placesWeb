@@ -22,6 +22,9 @@ from rest_framework.response import Response
 from rest_framework import status
 from serializers import UserSerializer, GroupSerializer, PlaceSerializer, AppUserSerializer, OfferSerializer, PlaceSubscriberSerializer
 
+from datetime import datetime
+
+
 @login_required
 def index(request):
     return HttpResponse("Hello, world. You're at the places index.")
@@ -220,6 +223,27 @@ class AppUserViewSet(viewsets.ModelViewSet):
         else:
             return super(AppUserViewSet, self).get_object()
 
+class PlaceSubscriberViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows groups to be viewed or edited.
+    """
+    queryset = PlaceSubscriber.objects.all()
+    serializer_class = PlaceSubscriberSerializer
+
+    def get_object(self):
+        if self.request.method == 'PUT':
+            appUser = AppUser.objects.filter(facebook_id=self.request.query_params.get('facebook_id', None)).first()
+            place = Place.objects.filter(id=self.request.query_params.get('place_id', None)).first()
+            placeSubscribers = PlaceSubscriber.objects.filter(user=appUser, place=place).first()
+
+            if placeSubscribers:
+                return placeSubscribers
+            else:
+                return PlaceSubscriber(user=appUser, place=place, date_subscribed=datetime.strptime('2014-12-04', '%Y-%m-%d').date())
+                #return AppUser(facebook_id=self.kwargs.get('facebook_id'))
+        else:
+            return super(PlaceSubscriberViewSet, self).get_object()
+
 class PlaceOffersList(viewsets.ModelViewSet):
     serializer_class = OfferSerializer
 
@@ -227,10 +251,6 @@ class PlaceOffersList(viewsets.ModelViewSet):
         place_id = self.request.query_params.get('place_id', None)
         return Offer.objects.filter(place_id=place_id)
 
-
-class PlaceSubscriberViewSet(viewsets.ModelViewSet):
-    queryset = PlaceSubscriber.objects.all()
-    serializer_class = AppUserSerializer
 
 class PlaceSubscriberList(APIView):
     """

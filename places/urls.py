@@ -11,6 +11,7 @@ router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'places', views.PlaceViewSet)
 router.register(r'appUsers', views.AppUserViewSet)
+router.register(r'placeSubscriber', views.PlaceSubscriberViewSet)
 router.register(r'placeOffers', views.PlaceOffersList, 'place_offers')
 
 urlpatterns = [
@@ -28,7 +29,7 @@ urlpatterns = [
     url(r'^offer/(?P<pk>\d+)$', views.OfferDetailView.as_view(), name='detail_offer'),
     url(r'^offer/delete/(?P<pk>\d+)/$', views.offer_delete, name='delete_offer'),
     url(r'^placeSubscriber/delete/$', views.place_subscriber_delete, name='delete_place_subscriber'),
-    url(r'^api/placeSubscriber/$', views.PlaceSubscriberDetail.as_view()),
+    #url(r'^api/placeSubscriber/$', views.PlaceSubscriberDetail.as_view()),
     #url(r'^api/place/(?P<place_id>.+)/offers/$', PlaceOffersList.as_view(), name='place_offer_view'),
     url(r'^api/', include(router.urls)),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))

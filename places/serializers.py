@@ -59,6 +59,13 @@ class OfferSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PlaceSubscriberSerializer(serializers.ModelSerializer):
+    place = PlaceSerializer(required=False)
+    user = AppUserSerializer(required=False)
+    date_subscribed = serializers.DateField(required=False)
     class Meta:
         model = PlaceSubscriber
         fields = ('id', 'place', 'user', 'date_subscribed')
+
+    def get_validation_exclusions(self):
+        exclusions = super(PlaceSubscriberSerializer, self).get_validation_exclusions()
+        return exclusions + ['place', 'user', 'date_subscribed']

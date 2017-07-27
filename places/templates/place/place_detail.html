@@ -167,7 +167,7 @@
                                     {{ forloop.counter }}. &emsp; <strong>{{ o.full_name }}</strong> {{ o.email }}
                                 </span>
                                 <span class="pull-right">
-                                  <span class="btn btn-xs btn-primary" onclick="sendPushNotificationToUser({{ o.ionic_id }}); return false;">Send Message</span>
+                                  <span class="btn btn-xs btn-primary" onclick="sendPushNotificationToUser('{{ o.ionic_id }}'); return false;">Send Message</span>
                                     <span class="btn btn-xs btn-danger" onclick="deletePlaceUser({{ place.id }}, {{ o.id }}); return false;  ">
                                         Unsubscribe
                                     </span>
@@ -256,9 +256,9 @@ function myMap() {
     function sendPushNotificationToUser(ionic_id){
 
         var message = prompt("Please enter the push notification message", "Message");
-         alert(ionic_id)
 
-         var jsonObject = {
+
+        var jsonObject = {
                       "user_ids": [ionic_id],
                       "profile": "placesappdev",
                       "notification": {
@@ -276,10 +276,7 @@ function myMap() {
                     }
 
 
-
         if (message != null) {
-
-            alert("Pushing")
             $.ajax({
                 url: 'https://api.ionic.io/push/notifications',
                 type: 'post',

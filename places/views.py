@@ -20,10 +20,10 @@ from rest_framework import viewsets, generics
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
-from serializers import UserSerializer, GroupSerializer, PlaceSerializer, AppUserSerializer, OfferSerializer, PlaceSubscriberSerializer
+from serializers import UserSerializer, GroupSerializer, PlaceSerializer, AppUserSerializer, OfferSerializer, PlaceSubscriberSerializer, PlaceOfferSerializer
 
 from datetime import datetime
-
+from django.utils import timezone
 
 @login_required
 def index(request):
@@ -228,6 +228,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
            context['is_user_subscribed'] = False
         return context
 
+
 class AppUserViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows groups to be viewed or edited.
@@ -263,7 +264,7 @@ class PlaceSubscriberViewSet(viewsets.ModelViewSet):
             if placeSubscribers:
                 return placeSubscribers
             else:
-                return PlaceSubscriber(user=appUser, place=place, date_subscribed=datetime.strptime('2014-12-04', '%Y-%m-%d').date())
+                return PlaceSubscriber(user=appUser, place=place)
                 #return AppUser(facebook_id=self.kwargs.get('facebook_id'))
 
                 #return Response(status=status.HTTP_204_NO_CONTENT)
@@ -285,11 +286,21 @@ class PlaceSubscriberViewSet(viewsets.ModelViewSet):
 
 
 class PlaceOffersList(viewsets.ModelViewSet):
-    serializer_class = OfferSerializer
+    """
+        API endpoint that allows offers from a Place to be viewed or edited. Required parameter(s) ?place_id=
+    """
+    serializer_class = PlaceOfferSerializer
 
     def get_queryset(self):
         place_id = self.request.query_params.get('place_id', None)
         return Offer.objects.filter(place_id=place_id)
+
+class OfferViewSet(viewsets.ModelViewSet):
+    """
+    API endpoint that allows offers to be viewed or edited.
+    """
+    queryset = Offer.objects.all()
+    serializer_class = OfferSerializer
 
 
 class PlaceSubscriberList(APIView):
@@ -304,7 +315,7 @@ class PlaceSubscriberList(APIView):
 
 class PlaceSubscriberDetail(APIView):
     """
-    Retrieve, update or delete a snippet instance. Needed parameters ?facebook_id=&place_id=
+    Retrieve, update or delete a snippet instance. Required parameter(s) ?facebook_id=&place_id=
     """
     def put(self, request, format=None):
         appUser = AppUser.objects.filter(facebook_id=self.request.query_params.get('facebook_id', None)).first()
@@ -312,7 +323,7 @@ class PlaceSubscriberDetail(APIView):
         placeSubscribers = PlaceSubscriber.objects.filter(user=appUser.id, place=self.request.query_params.get('place_id', None)).first()
         serializer = PlaceSubscriberSerializer(placeSubscribers , data=request.data)
         if serializer.is_valid():
-            serializer.save(user=appUser.id, place=place.id)
+            serializer.save(user=appUser.id, place=place.id, date_subscribed=timezone.now)
             return Response(serializer.data, status=status.HTTP_200_OK)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 

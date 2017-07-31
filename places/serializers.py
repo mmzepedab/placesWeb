@@ -36,14 +36,20 @@ class PlaceSerializer(serializers.HyperlinkedModelSerializer):
         is_user_subscribed = self.context.get("is_user_subscribed")
         return is_user_subscribed
 
+
 class AppUserSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = AppUser
         fields = ('id', 'full_name', 'first_name', 'last_name', 'email', 'facebook_id', 'profile_picture', 'push_token', 'ionic_id')
 
+class OfferSerializer(serializers.ModelSerializer):
+    #place = serializers.StringRelatedField(many=False)
 
+    class Meta:
+        model = Offer
+        fields = ('id', 'description', 'start_date', 'end_date', 'place', 'offer_type', 'image_thumbnail', 'image')
 
-class OfferSerializer(serializers.HyperlinkedModelSerializer):
+class PlaceOfferSerializer(serializers.ModelSerializer):
     place_name = serializers.SerializerMethodField()
     def get_place_name(self, obj):
         return obj.place.name
@@ -59,14 +65,14 @@ class OfferSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Offer
-        fields = ('name', 'description', 'start_date', 'end_date', 'place', 'place_name', 'place_image_thumbnail', 'place_subscribers_count' ,'offer_type', 'image_thumbnail','image')
+        fields = ('id', 'name', 'description', 'start_date', 'end_date', 'place', 'place_name', 'place_image_thumbnail', 'place_subscribers_count' ,'offer_type', 'image_thumbnail','image')
 
 
 
 class PlaceSubscriberSerializer(serializers.ModelSerializer):
     place = PlaceSerializer(required=False)
     user = AppUserSerializer(required=False)
-    date_subscribed = serializers.DateField(required=False)
+    date_subscribed = serializers.DateTimeField(required=False)
     class Meta:
         model = PlaceSubscriber
         fields = ('id', 'place', 'user', 'date_subscribed')

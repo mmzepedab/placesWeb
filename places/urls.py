@@ -10,9 +10,10 @@ router = routers.DefaultRouter()
 router.register(r'users', views.UserViewSet)
 router.register(r'groups', views.GroupViewSet)
 router.register(r'places', views.PlaceViewSet, base_name='places')
+router.register(r'offers', views.OfferViewSet, base_name='offers')
+router.register(r'placeOffers', views.PlaceOffersList, 'place_offers')
 router.register(r'appUsers', views.AppUserViewSet)
 router.register(r'placeSubscriber', views.PlaceSubscriberViewSet)
-router.register(r'placeOffers', views.PlaceOffersList, 'place_offers')
 
 urlpatterns = [
     url(r'^$', views.index, name='index'),

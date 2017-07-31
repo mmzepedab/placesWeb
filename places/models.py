@@ -3,6 +3,8 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import User
 from rest_framework.validators import UniqueValidator
+from django.utils import timezone
+
 
 # Create your models here.
 class Category(models.Model):
@@ -55,8 +57,8 @@ class Place(models.Model):
 class Offer(models.Model):
 	name = models.CharField(max_length=200)
 	description = models.CharField(max_length=200)
-	start_date = models.DateField()
-	end_date = models.DateField()
+	start_date = models.DateTimeField()
+	end_date = models.DateTimeField()
 	place = models.ForeignKey(Place, related_name='offers', on_delete=models.CASCADE)
 	offer_type = models.IntegerField(default=0)
 	image_thumbnail = models.ImageField(upload_to='images/thumbnails')
@@ -73,7 +75,7 @@ class Offer(models.Model):
 class PlaceSubscriber(models.Model):
     place = models.ForeignKey(Place, on_delete=models.CASCADE)
     user = models.ForeignKey(AppUser, on_delete=models.CASCADE)
-    date_subscribed = models.DateField()
+    date_subscribed = models.DateTimeField(editable=False, default=timezone.now)
 
     class Meta:
         unique_together = ('place', 'user')

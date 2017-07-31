@@ -43,11 +43,25 @@ class AppUserSerializer(serializers.HyperlinkedModelSerializer):
         fields = ('id', 'full_name', 'first_name', 'last_name', 'email', 'facebook_id', 'profile_picture', 'push_token', 'ionic_id')
 
 class OfferSerializer(serializers.ModelSerializer):
-    #place = serializers.StringRelatedField(many=False)
+    place_name = serializers.SerializerMethodField()
+
+    def get_place_name(self, obj):
+        return obj.place.name
+
+    place_subscribers_count = serializers.SerializerMethodField()
+
+    def get_place_subscribers_count(self, obj):
+        return obj.place.subscribers.count()
+
+    place_image_thumbnail = serializers.SerializerMethodField()
+
+    def get_place_image_thumbnail(self, obj):
+        request = self.context.get('request')
+        return 'http://%s%s%s' % (request.get_host(), settings.MEDIA_URL, obj.place.image_thumbnail)
 
     class Meta:
         model = Offer
-        fields = ('id', 'description', 'start_date', 'end_date', 'place', 'offer_type', 'image_thumbnail', 'image')
+        fields = ('id', 'description', 'place', 'place_name', 'place_image_thumbnail', 'place_subscribers_count', 'start_date', 'end_date', 'place', 'offer_type', 'image_thumbnail', 'image')
 
 class PlaceOfferSerializer(serializers.ModelSerializer):
     place_name = serializers.SerializerMethodField()

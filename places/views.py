@@ -122,6 +122,10 @@ class PlaceDetailView(DetailView):
     model = Place
     template_name = 'place/place_detail.html'
 
+class PlaceDetailBarcodeView(DetailView):
+    model = Place
+    template_name = 'place/place_detail_barcode.html'
+
 
 # Offer Views
 class OfferDetailView(DetailView):

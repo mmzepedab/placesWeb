@@ -52,6 +52,7 @@
                                     <ul class="nav nav-pills pull-left">
                                         <li role="presentation"><a href="#">Subscribers {{ place.subscribers.count }}</a></li>
                                         <li role="presentation"><a href="#">Check-ins 0</a></li>
+                                        <li role="presentation"><a href="{% url 'detail_place_barcode' place.id %}">Code Scan</a></li>
                                         <li role="presentation" class="disabled"><a href="#">Send Broadcast</a></li>
                                     </ul>
 

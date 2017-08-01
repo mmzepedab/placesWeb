@@ -61,7 +61,7 @@ class OfferSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Offer
-        fields = ('id', 'description', 'place', 'place_name', 'place_image_thumbnail', 'place_subscribers_count', 'start_date', 'end_date', 'place', 'offer_type', 'image_thumbnail', 'image')
+        fields = ('id', 'name', 'description', 'place', 'place_name', 'place_image_thumbnail', 'place_subscribers_count', 'start_date', 'end_date', 'place', 'offer_type', 'image_thumbnail', 'image')
 
 class PlaceOfferSerializer(serializers.ModelSerializer):
     place_name = serializers.SerializerMethodField()

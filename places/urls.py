@@ -23,6 +23,7 @@ urlpatterns = [
     url(r'^place/create/$', views.place_create, name='create_place'),
     url(r'^place/update/(?P<pk>\d+)$', views.place_update, name='update_place'),
     url(r'^place/(?P<pk>\d+)$', views.PlaceDetailView.as_view(), name='detail_place'),
+    url(r'^place/(?P<pk>\d+)/barcode', views.PlaceDetailBarcodeView.as_view(), name='detail_place_barcode'),
     url(r'^place/delete/(?P<pk>\d+)/$', views.place_delete, name='delete_place'),
     # Offer urls
     url(r'^place/(?P<pk>\d+)/offer/create/$', views.add_offer_to_place, name='add_offer_to_place'),

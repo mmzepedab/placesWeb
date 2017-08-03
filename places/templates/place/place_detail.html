@@ -50,8 +50,9 @@
                                 <div class="panel panel-default">
                                   <div class="panel-body">
                                     <ul class="nav nav-pills pull-left">
-                                        <li role="presentation"><a href="#">Subscribers {{ place.subscribers.count }}</a></li>
-                                        <li role="presentation"><a href="#">Check-ins 0</a></li>
+                                        <li role="presentation"><a href="#subscribers">Subscribers ({{ place.subscribers.count }})</a></li>
+                                        <li role="presentation"><a href="#offers">Offers ({{ place.offers.count }})</a></li>
+                                        <li role="presentation"><a href="#">Check-ins (0)</a></li>
                                         <li role="presentation"><a href="{% url 'detail_place_barcode' place.id %}">Code Scan</a></li>
                                         <li role="presentation" class="disabled"><a href="#">Send Broadcast</a></li>
                                     </ul>
@@ -104,10 +105,10 @@
 
             <br/>
 
-            <div class="panel panel-default">
+            <div class="panel panel-default" id="offers">
                 <div class="panel-heading">
                     <div class="panel-heading clearfix">
-                      <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Offers</h4>
+                      <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Offers ({{ place.offers.count }})</h4>
                           <div class="pull-right">
                             <a href="{% url 'add_offer_to_place' pk=place.pk %}" class="btn btn-success btn-sm"><i class="fa fa-plus fa-fw"></i></a>
                           </div>
@@ -149,10 +150,10 @@
 
             </div>
 
-            <div class="panel panel-default">
+            <div class="panel panel-default" id="subscribers">
                 <div class="panel-heading">
                     <div class="panel-heading clearfix">
-                      <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Subscribers</h4>
+                      <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Subscribers ({{ place.subscribers.count }})</h4>
                           <div class="pull-right">
                             <a href="{% url 'add_offer_to_place' pk=place.pk %}" class="btn btn-success btn-sm"><i class="fa fa-plus fa-fw"></i></a>
                           </div>
@@ -165,7 +166,11 @@
 
                         <a href="#" class="list-group-item clearfix">
                                 <span class="pull-left">
-                                    {{ forloop.counter }}. &emsp; <strong>{{ o.full_name }}</strong> {{ o.email }}
+                                    {{ forloop.counter }}. &emsp;
+                                </span>
+                                <span class="pull-left">
+                                    <strong>{{ o.full_name }}</strong>
+                                    <p>Email: <i>{{ o.email }}</i> | Date Subscribed: <i> {{ o.created_at }} </i> </p>
                                 </span>
                                 <span class="pull-right">
                                   <span class="btn btn-xs btn-primary" onclick="sendPushNotificationToUser('{{ o.ionic_id }}'); return false;">Send Message</span>

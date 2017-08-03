@@ -5,11 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ba22b17-f426-4bdd-8599-1ca2608c0799" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/places/admin.py" afterPath="$PROJECT_DIR$/places/admin.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/places/models.py" afterPath="$PROJECT_DIR$/places/models.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/places/serializers.py" afterPath="$PROJECT_DIR$/places/serializers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/places/templates/place/place_detail_barcode.html" afterPath="$PROJECT_DIR$/places/templates/place/place_detail_barcode.html" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/places/templates/place/place_detail.html" afterPath="$PROJECT_DIR$/places/templates/place/place_detail.html" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -24,24 +20,21 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="place_detail_barcode.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/places/templates/place/place_detail_barcode.html">
+      <file leaf-file-name="place_detail.html" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/places/templates/place/place_detail.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="63">
-              <caret line="131" column="24" lean-forward="false" selection-start-line="131" selection-start-column="24" selection-end-line="131" selection-end-column="24" />
-              <folding>
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-                <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
-              </folding>
+            <state relative-caret-position="164">
+              <caret line="107" column="55" lean-forward="false" selection-start-line="107" selection-start-column="55" selection-end-line="107" selection-end-column="55" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="place_detail.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/places/templates/place/place_detail.html">
+      <file leaf-file-name="place_list.html" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/places/templates/place/place_list.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2490">
-              <caret line="166" column="55" lean-forward="false" selection-start-line="166" selection-start-column="38" selection-end-line="166" selection-end-column="55" />
+            <state relative-caret-position="279">
+              <caret line="67" column="36" lean-forward="true" selection-start-line="67" selection-start-column="36" selection-end-line="67" selection-end-column="120" />
               <folding />
             </state>
           </provider>
@@ -120,13 +113,13 @@
         <option value="$PROJECT_DIR$/places/templates/place/place_list.html" />
         <option value="$PROJECT_DIR$/places/forms.py" />
         <option value="$PROJECT_DIR$/places/templates/offer/offer_create.html" />
-        <option value="$PROJECT_DIR$/places/templates/place/place_detail.html" />
         <option value="$PROJECT_DIR$/places/views.py" />
         <option value="$PROJECT_DIR$/places/urls.py" />
         <option value="$PROJECT_DIR$/places/models.py" />
         <option value="$PROJECT_DIR$/places/admin.py" />
         <option value="$PROJECT_DIR$/places/serializers.py" />
         <option value="$PROJECT_DIR$/places/templates/place/place_detail_barcode.html" />
+        <option value="$PROJECT_DIR$/places/templates/place/place_detail.html" />
       </list>
     </option>
   </component>
@@ -727,13 +720,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/places/templates/place/place_list.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="67" column="116" lean-forward="false" selection-start-line="67" selection-start-column="87" selection-end-line="67" selection-end-column="116" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/mysite/settings.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="1844">
@@ -857,16 +843,24 @@
         <state relative-caret-position="63">
           <caret line="131" column="24" lean-forward="false" selection-start-line="131" selection-start-column="24" selection-end-line="131" selection-end-column="24" />
           <folding>
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="true" />
-            <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#!!top" expanded="true" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#0;n#div#0;n#!!top" expanded="false" />
+            <element signature="n#style#0;n#div#1;n#div#0;n#div#1;n#div#0;n#!!top" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/places/templates/place/place_list.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="279">
+          <caret line="67" column="36" lean-forward="true" selection-start-line="67" selection-start-column="36" selection-end-line="67" selection-end-column="120" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/places/templates/place/place_detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2490">
-          <caret line="166" column="55" lean-forward="false" selection-start-line="166" selection-start-column="38" selection-end-line="166" selection-end-column="55" />
+        <state relative-caret-position="164">
+          <caret line="107" column="55" lean-forward="false" selection-start-line="107" selection-start-column="55" selection-end-line="107" selection-end-column="55" />
           <folding />
         </state>
       </provider>

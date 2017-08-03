@@ -59,6 +59,7 @@ INSTALLED_APPS = (
     'login',
     'crispy_forms',
     'rest_framework',
+    'django_filters',
 
 )
 
@@ -69,7 +70,8 @@ REST_FRAMEWORK = {
     #],
     'DEFAULT_AUTHENTICATION_CLASSES': [],
     'DEFAULT_PERMISSION_CLASSES': [],
-    'PAGE_SIZE': 10
+    'PAGE_SIZE': 10,
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
 }
 
 MIDDLEWARE_CLASSES = (

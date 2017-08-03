@@ -24,6 +24,9 @@ from serializers import UserSerializer, GroupSerializer, PlaceSerializer, AppUse
 
 from datetime import datetime
 from django.utils import timezone
+from rest_framework import filters
+from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
 
 @login_required
 def index(request):
@@ -206,10 +209,12 @@ class PlaceViewSet(viewsets.ModelViewSet):
     """
     #queryset = Place.objects.all()
     serializer_class = PlaceSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filter_fields = ('name',)
 
     def get_queryset(self):
 
-        places = Place.objects.all()
+        places = Place.objects.all().order_by('-created_at')
         # if you need to get subscription by name
         place_id = self.request.query_params.get('place_id', None)
         if place_id is not None:

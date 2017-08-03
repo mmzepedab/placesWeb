@@ -27,7 +27,7 @@ class PlaceSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Place
-        fields = ('id', 'name', 'address', 'email', 'phone_number', 'description', 'image', 'image_thumbnail', 'image_cover', 'offers', 'subscriber_count', 'is_user_subscribed')
+        fields = ('id', 'name', 'address', 'email', 'phone_number', 'description', 'image', 'image_thumbnail', 'image_cover', 'offers', 'subscriber_count', 'is_user_subscribed', 'created_at', 'updated_at')
 
     def get_subscriber_count(self, obj):
         return obj.subscribers.count()

@@ -42,6 +42,22 @@ class AppUserSerializer(serializers.HyperlinkedModelSerializer):
         model = AppUser
         fields = ('id', 'full_name', 'first_name', 'last_name', 'email', 'facebook_id', 'profile_picture', 'push_token', 'ionic_id')
 
+    #TODO override the save and create methods to add the dates the Appuser was created or updated
+    # def save(self, **kwargs):
+    #     # Will be done on every save
+    #     kwargs['created_at'] = timezone.now()
+    #     kwargs['updated_at'] = timezone.now()
+    #     return super().save(**kwargs)
+    #
+    # def create(self, instance, data):
+    #     # Will only be done if a new object is being created
+    #     data['created_at'] = timezone.now()
+    #     return super().create(instance, data)
+    """ 
+    Multiline Comment
+    Python
+    """
+
 class OfferSerializer(serializers.ModelSerializer):
     place_name = serializers.SerializerMethodField()
 

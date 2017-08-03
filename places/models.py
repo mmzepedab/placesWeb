@@ -20,9 +20,13 @@ class AppUser(models.Model):
     last_name = models.CharField(max_length=200)
     email = models.CharField(max_length=200)
     facebook_id = models.CharField(max_length=200, unique=True, error_messages={'unique':"This User Already Registered"})
-    profile_picture = models.CharField(max_length=200)
+    profile_picture = models.CharField(max_length=500)
     push_token = models.CharField(max_length=200, default=0)
     ionic_id = models.CharField(max_length=200, default="")
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    is_active = models.BooleanField(default=True)
+    is_blocked = models.BooleanField(default=False)
     #my_places = models.ManyToManyField(Place, through='PlaceSubscriber')
 
     def __str__(self):
@@ -50,26 +54,28 @@ class Place(models.Model):
     longitude = models.CharField(max_length=200)
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='places', default=1)
     subscribers = models.ManyToManyField(AppUser, through='PlaceSubscriber')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
     def __str__(self):              # __unicode__ on Python
    		return self.name
 
 
 class Offer(models.Model):
-	name = models.CharField(max_length=200)
-	description = models.CharField(max_length=200)
-	start_date = models.DateTimeField()
-	end_date = models.DateTimeField()
-	place = models.ForeignKey(Place, related_name='offers', on_delete=models.CASCADE)
-	offer_type = models.IntegerField(default=0)
-	image_thumbnail = models.ImageField(upload_to='images/thumbnails')
-	image = models.ImageField(upload_to='images/')
-	def __str__(self):
-		return self.name
+    name = models.CharField(max_length=200)
+    description = models.CharField(max_length=200)
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
+    place = models.ForeignKey(Place, related_name='offers', on_delete=models.CASCADE)
+    offer_type = models.IntegerField(default=0)
+    image_thumbnail = models.ImageField(upload_to='images/thumbnails')
+    image = models.ImageField(upload_to='images/')
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    def __str__(self):
+    	return self.name
 
 	class Meta:
 		ordering = ('name',)
-
-
 
 
 class PlaceSubscriber(models.Model):

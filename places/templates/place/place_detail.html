@@ -162,6 +162,12 @@
                 <div class="panel-body">
 
                     <div class="list-group">
+                    <!-- TODO fix the placesubscriber date subscribed and add to the view -->
+                    {% for each in place.placesubscriber_set.all %}
+                        {{ each.date_subscribed }}
+                    {% endfor %}
+
+
                     {% for o in place.subscribers.all %}
 
                         <a href="#" class="list-group-item clearfix">
@@ -170,7 +176,7 @@
                                 </span>
                                 <span class="pull-left">
                                     <strong>{{ o.full_name }}</strong>
-                                    <p>Email: <i>{{ o.email }}</i> | Date Subscribed: <i> {{ o.created_at }} </i> </p>
+                                    <p>Email: <i>{{ o.email }}</i> | Date Subscribed: <i> {{ o.place__placesubscriber__date_subscribed }} </i> </p>
                                 </span>
                                 <span class="pull-right">
                                   <span class="btn btn-xs btn-primary" onclick="sendPushNotificationToUser('{{ o.ionic_id }}'); return false;">Send Message</span>

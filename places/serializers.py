@@ -24,10 +24,11 @@ class PlaceSerializer(serializers.HyperlinkedModelSerializer):
 
     subscriber_count = serializers.SerializerMethodField()
     is_user_subscribed = serializers.SerializerMethodField()
+    type = serializers.SerializerMethodField()
 
     class Meta:
         model = Place
-        fields = ('id', 'name', 'address', 'email', 'phone_number', 'description', 'image', 'image_thumbnail', 'image_cover', 'offers', 'subscriber_count', 'is_user_subscribed', 'created_at', 'updated_at')
+        fields = ('id', 'name', 'type', 'address', 'email', 'phone_number', 'description', 'image', 'image_thumbnail', 'image_cover', 'offers', 'subscriber_count', 'is_user_subscribed', 'created_at', 'updated_at')
 
     def get_subscriber_count(self, obj):
         return obj.subscribers.count()
@@ -35,6 +36,9 @@ class PlaceSerializer(serializers.HyperlinkedModelSerializer):
     def get_is_user_subscribed(self, obj):
         is_user_subscribed = self.context.get("is_user_subscribed")
         return is_user_subscribed
+
+    def get_type(self, obj):
+        return obj.get_place_type_id_display()
 
 
 class AppUserSerializer(serializers.HyperlinkedModelSerializer):

@@ -210,7 +210,7 @@ class PlaceViewSet(viewsets.ModelViewSet):
     #queryset = Place.objects.all()
     serializer_class = PlaceSerializer
     filter_backends = (DjangoFilterBackend, filters.SearchFilter)
-    filter_fields = ('name',)
+    filter_fields = ('name', 'place_type_id',)
     search_fields = ('name',)
 
     def get_queryset(self):

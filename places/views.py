@@ -309,7 +309,7 @@ class OfferViewSet(viewsets.ModelViewSet):
     """
     API endpoint that allows offers to be viewed or edited.
     """
-    queryset = Offer.objects.all()
+    queryset = Offer.objects.all().order_by('-id')
     serializer_class = OfferSerializer
 
 

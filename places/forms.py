@@ -142,10 +142,10 @@ class PlaceForm(forms.ModelForm):
             raise forms.ValidationError("No image!")
         else:
             w, h = get_image_dimensions(image)
-            if w != 100:
-                raise forms.ValidationError("The image is %i pixel wide. It's supposed to be 500px" % w)
-            if h != 100:
-                raise forms.ValidationError("The image is %i pixel high. It's supposed to be 500px" % h)
+            if w < 200:
+                raise forms.ValidationError("The image is %i pixel wide. It's supposed to be larger than 200px" % w)
+            if h < 200:
+                raise forms.ValidationError("The image is %i pixel high. It's supposed to be larger than 200px" % h)
         return image
 
     def clean_image_thumbnail(self):
@@ -154,10 +154,10 @@ class PlaceForm(forms.ModelForm):
             raise forms.ValidationError("No image!")
         else:
             w, h = get_image_dimensions(image)
-            if w != 100:
-                raise forms.ValidationError("The image is %i pixel wide. It's supposed to be 200px" % w)
-            if h != 100:
-                raise forms.ValidationError("The image is %i pixel high. It's supposed to be 200px" % h)
+            if w > 200:
+                raise forms.ValidationError("The image is %i pixel wide. It's supposed to be smaller than 200px" % w)
+            if h > 200:
+                raise forms.ValidationError("The image is %i pixel high. It's supposed to be smaller than 200px" % h)
         return image
 
     def clean_image_cover(self):
@@ -249,10 +249,10 @@ class OfferForm(forms.ModelForm):
             raise forms.ValidationError("No image!")
         else:
             w, h = get_image_dimensions(image)
-            if w > 500:
-                raise forms.ValidationError("The image is %i pixel wide. It's supposed to be greater than 500px" % w)
-            if h > 500:
-                raise forms.ValidationError("The image is %i pixel high. It's supposed to be greater than 500px" % h)
+            if w < 500:
+                raise forms.ValidationError("The image is %i pixel wide. It's supposed to be larger than 500px" % w)
+            if h < 500:
+                raise forms.ValidationError("The image is %i pixel high. It's supposed to be larger than 500px" % h)
         return image
 
     description = forms.CharField(

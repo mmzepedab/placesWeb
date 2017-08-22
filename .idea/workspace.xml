@@ -5,10 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0ba22b17-f426-4bdd-8599-1ca2608c0799" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/places/serializers.py" afterPath="$PROJECT_DIR$/places/serializers.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/places/templates/place/place_detail.html" afterPath="$PROJECT_DIR$/places/templates/place/place_detail.html" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/places/views.py" afterPath="$PROJECT_DIR$/places/views.py" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/places/forms.py" afterPath="$PROJECT_DIR$/places/forms.py" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -23,68 +20,14 @@
   <component name="ExecutionTargetManager" SELECTED_TARGET="default_target" />
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
-      <file leaf-file-name="place_detail.html" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/places/templates/place/place_detail.html">
+      <file leaf-file-name="forms.py" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/places/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="15">
-              <caret line="178" column="134" lean-forward="false" selection-start-line="178" selection-start-column="134" selection-end-line="178" selection-end-column="134" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="models.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/places/models.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1125">
-              <caret line="80" column="21" lean-forward="false" selection-start-line="80" selection-start-column="6" selection-end-line="80" selection-end-column="21" />
+            <state relative-caret-position="1838">
+              <caret line="254" column="99" lean-forward="false" selection-start-line="254" selection-start-column="99" selection-end-line="254" selection-end-column="99" />
               <folding>
-                <element signature="e#0#39#0" expanded="true" />
+                <element signature="e#0#24#0" expanded="true" />
               </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="serializers.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/places/serializers.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="525">
-              <caret line="40" column="36" lean-forward="false" selection-start-line="40" selection-start-column="23" selection-end-line="40" selection-end-column="36" />
-              <folding>
-                <element signature="e#0#50#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="views.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/places/views.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="3180">
-              <caret line="212" column="43" lean-forward="false" selection-start-line="212" selection-start-column="43" selection-end-line="212" selection-end-column="43" />
-              <folding>
-                <element signature="e#0#35#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="settings.py" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/mysite/settings.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="915">
-              <caret line="61" column="21" lean-forward="false" selection-start-line="61" selection-start-column="21" selection-end-line="61" selection-end-column="21" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="place_list.html" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/places/templates/place/place_list.html">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1005">
-              <caret line="67" column="36" lean-forward="false" selection-start-line="67" selection-start-column="36" selection-end-line="67" selection-end-column="120" />
-              <folding />
             </state>
           </provider>
         </entry>
@@ -159,7 +102,6 @@
         <option value="$PROJECT_DIR$/manage.py" />
         <option value="$PROJECT_DIR$/places/templates/base.html" />
         <option value="$PROJECT_DIR$/places/templates/place/place_list.html" />
-        <option value="$PROJECT_DIR$/places/forms.py" />
         <option value="$PROJECT_DIR$/places/templates/offer/offer_create.html" />
         <option value="$PROJECT_DIR$/places/urls.py" />
         <option value="$PROJECT_DIR$/places/models.py" />
@@ -169,6 +111,7 @@
         <option value="$PROJECT_DIR$/places/serializers.py" />
         <option value="$PROJECT_DIR$/places/views.py" />
         <option value="$PROJECT_DIR$/places/templates/place/place_detail.html" />
+        <option value="$PROJECT_DIR$/places/forms.py" />
       </list>
     </option>
   </component>
@@ -193,7 +136,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scope" />
+      <pane id="Scratches" />
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -344,7 +287,7 @@
           </PATH>
         </subPane>
       </pane>
-      <pane id="Scratches" />
+      <pane id="Scope" />
     </panes>
   </component>
   <component name="PropertiesComponent">
@@ -516,6 +459,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="17" y="36" width="1400" height="773" extended-state="0" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.17428571" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32954547" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -768,16 +712,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/places/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-15">
-          <caret line="254" column="93" lean-forward="false" selection-start-line="254" selection-start-column="93" selection-end-line="254" selection-end-column="93" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/places/static/places/js/plugins/flot/flot-data.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -910,9 +844,19 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/places/templates/place/place_detail.html">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="15">
+        <state relative-caret-position="240">
           <caret line="178" column="134" lean-forward="false" selection-start-line="178" selection-start-column="134" selection-end-line="178" selection-end-column="134" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/places/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1838">
+          <caret line="254" column="99" lean-forward="false" selection-start-line="254" selection-start-column="99" selection-end-line="254" selection-end-column="99" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>

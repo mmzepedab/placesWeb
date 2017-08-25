@@ -16,7 +16,7 @@ router.register(r'appUsers', views.AppUserViewSet)
 router.register(r'placeSubscriber', views.PlaceSubscriberViewSet)
 
 urlpatterns = [
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.place_list, name='list_place'),
     url(r'^category/create/$', views.category_create, name='create_category'),
     url(r'^category/list/$', views.category_list, name='list_category'),
     url(r'^place/list/$', views.place_list, name='list_place'),

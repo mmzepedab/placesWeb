@@ -24,7 +24,7 @@ from polls.views import index
 from login.views import *
 
 urlpatterns = [
-    url(r'^$', index),
+    url(r'', include('places.urls')),
     url(r'^admin/', include(admin.site.urls)),
     url(r'^places/', include('places.urls')),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name="logout"),

@@ -41,7 +41,7 @@ vim /etc/uwsgi/sites/placesweb.ini
 #Run uwsgi
 sudo service uwsgi start
 sudo service uwsgi stop
-vim /etc/uwsgi/sites/placesweb.ini 
+vim /etc/uwsgi/sites/placesweb.ini
 
 [uwsgi]
 project = placesWeb

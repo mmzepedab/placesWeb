@@ -35,3 +35,48 @@ pip install MySQL-python
 
 
 
+#SERVER
+#Uwsgi #Configuration
+vim /etc/uwsgi/sites/placesweb.ini
+#Run uwsgi
+sudo service uwsgi start
+sudo service uwsgi stop
+vim /etc/uwsgi/sites/placesweb.ini 
+
+[uwsgi]
+project = placesWeb
+base = /home/django
+
+chdir = %(base)/%(project)
+home = %(base)/Env/places
+module = mysite.wsgi:application
+
+master = true
+processes = 2
+
+socket = %(base)/%(project)/%(project).sock
+chmod-socket = 666
+vacuum = true
+
+#Run nginx
+sudo service nginx start
+sudo service nginx stop
+vim /etc/nginx/sites-enabled/places
+server {
+    listen 80;
+    server_name placestime.com;
+
+    location = /favicon.ico { access_log off; log_not_found off; }
+    location /static/ {
+        root /home/django/placesWeb;
+    }
+
+    location / {
+        include         uwsgi_params;
+        uwsgi_pass      unix:/home/django/placesWeb/placesWeb.sock;
+    }
+}
+
+
+#Linode configuration
+https://www.linode.com/docs/web-servers/nginx/deploy-django-applications-using-uwsgi-and-nginx-on-ubuntu-14-04

@@ -10,6 +10,9 @@ from django.core.files.images import get_image_dimensions
 
 from django.contrib.admin.widgets import AdminDateWidget
 
+import StringIO
+from PIL import Image
+
 
 class RegistrationForm(forms.Form):
     username = forms.RegexField(regex=r'^\w+$', widget=forms.TextInput(attrs=dict(required=True, max_length=30)),
@@ -137,40 +140,74 @@ class PlaceForm(forms.ModelForm):
 
 
     def clean_image(self):
-        image = self.cleaned_data.get("image")
-        if not image:
+        image_field = self.cleaned_data.get("image")
+        if not image_field:
             raise forms.ValidationError("No image!")
         else:
-            w, h = get_image_dimensions(image)
-            if w < 200:
-                raise forms.ValidationError("The image is %i pixel wide. It's supposed to be larger than 200px" % w)
-            if h < 200:
-                raise forms.ValidationError("The image is %i pixel high. It's supposed to be larger than 200px" % h)
-        return image
+            image_file = StringIO.StringIO(image_field.read())
+            image = Image.open(image_file)
+            w, h = image.size
+
+            image = image.resize((500, 500), Image.ANTIALIAS)
+
+            image_file = StringIO.StringIO()
+            image.save(image_file, 'JPEG', quality=90)
+
+            image_field.file = image_file
+
+            #w, h = get_image_dimensions(image)
+            #if w < 200:
+            #    raise forms.ValidationError("The image is %i pixel wide. It's supposed to be larger than 200px" % w)
+            #if h < 200:
+            #    raise forms.ValidationError("The image is %i pixel high. It's supposed to be larger than 200px" % h)
+        return image_field
 
     def clean_image_thumbnail(self):
-        image = self.cleaned_data.get("image_thumbnail")
-        if not image:
+        image_field = self.cleaned_data.get("image_thumbnail")
+        if not image_field:
             raise forms.ValidationError("No image!")
         else:
-            w, h = get_image_dimensions(image)
-            if w > 200:
-                raise forms.ValidationError("The image is %i pixel wide. It's supposed to be smaller than 200px" % w)
-            if h > 200:
-                raise forms.ValidationError("The image is %i pixel high. It's supposed to be smaller than 200px" % h)
-        return image
+            image_file = StringIO.StringIO(image_field.read())
+            w, h = get_image_dimensions(image_file)
+            if w < 200 or h < 200:
+                raise forms.ValidationError(
+                    "The image is %i px wide and %i px high. It cannot be smaller than 200px by 200px" % (w, h))
+            image = Image.open(image_file)
+            w, h = image.size
+
+            image = image.resize((200, 200), Image.ANTIALIAS)
+
+            image_file = StringIO.StringIO()
+            image.save(image_file, 'JPEG', quality=90)
+
+            image_field.file = image_file
+
+            #if h < 200:
+            #    raise forms.ValidationError("The image is %i pixel high. It's supposed to be larger than 200px" % h)
+        return image_field
 
     def clean_image_cover(self):
-        image = self.cleaned_data.get("image_cover")
-        if not image:
+        image_field = self.cleaned_data.get("image_cover")
+        if not image_field:
             raise forms.ValidationError("No image!")
         else:
-            w, h = get_image_dimensions(image)
-            if w != 640:
-                raise forms.ValidationError("The image is %i pixel wide. It's supposed to be 640px" % w)
-            if h != 360:
-                raise forms.ValidationError("The image is %i pixel high. It's supposed to be 360px" % h)
-        return image
+            image_file = StringIO.StringIO(image_field.read())
+            image = Image.open(image_file)
+            w, h = image.size
+
+            image = image.resize((640, 360), Image.ANTIALIAS)
+
+            image_file = StringIO.StringIO()
+            image.save(image_file, 'JPEG', quality=90)
+
+            image_field.file = image_file
+
+            # w, h = get_image_dimensions(image)
+            # if w < 200:
+            #    raise forms.ValidationError("The image is %i pixel wide. It's supposed to be larger than 200px" % w)
+            # if h < 200:
+            #    raise forms.ValidationError("The image is %i pixel high. It's supposed to be larger than 200px" % h)
+        return image_field
 
 
     address = forms.CharField(
@@ -223,11 +260,11 @@ class PlaceForm(forms.ModelForm):
                 Field('longitude', type="hidden"),
                 'search',
                 'image',
-                HTML("""<p>This image must be  <strong>100px</strong> by <strong>100px</strong></p>"""),
+                HTML("""<p>The Recommended size is <strong>500px</strong> by <strong>500px</strong></p>"""),
                 'image_thumbnail',
-                HTML("""<p>This image must be  <strong>100px</strong> by <strong>100px</strong></p>"""),
+                HTML("""<p>The Recommended size is <strong>200px</strong> by <strong>200px</strong></p>"""),
                 'image_cover',
-                HTML("""<p>This image must be  <strong>640px</strong> by <strong>360px</strong></p>"""),
+                HTML("""<p>The Recommended size is <strong>640px</strong> by <strong>360px</strong></p>"""),
             ),
             ButtonHolder(
                 Submit('submit', 'Save', css_class='button white')

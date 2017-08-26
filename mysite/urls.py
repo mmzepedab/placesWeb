@@ -28,8 +28,9 @@ urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
     url(r'^places/', include('places.urls')),
     url(r'^logout/$', auth_views.logout, {'next_page': '/'}, name="logout"),
-    url(r'^accounts/login/$', auth_views.login, name="login"),  # If user is not login it will redirect to login page
-    url(r'^register/$', register),
+    #url(r'^accounts/login/$', auth_views.login, name="login"),  # If user is not login it will redirect to login page
+    url(r'^accounts/login/$', auth_views.LoginView.as_view(template_name='place/login.html'), name="login"),
+    url(r'^register/$', register, name="register"),
     url(r'^register/success/$', register_success),
     url(r'^home/$', home),
 ]

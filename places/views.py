@@ -60,6 +60,7 @@ def category_list(request):
 
     return render(request, "category_list.html",  context)
 
+@login_required(login_url='/accounts/login/')
 def place_list(request):
     if request.user.is_authenticated():
         logged_in_user = request.user

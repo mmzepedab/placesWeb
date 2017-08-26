@@ -1,13 +1,27 @@
 {% extends "base.html" %}
 
 
-{% block title %}Create Place{% endblock %}
+{% block title %}
+    <!--Page Title-->
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <div id="page-title">
+        <h1 class="page-header text-overflow">Places</h1>
+
+
+    </div>
+    <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+    <!--End page title-->
+
+{% endblock %}
 {% block head %}Create Place{% endblock %}
 {% block head_subtitle %}Here you can create a new place{% endblock %}
 {% block breadcrumb %}
 
-<ol class="breadcrumb">
-                                        <li>
+
+<!--Breadcrumb-->
+                <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                <ol class="breadcrumb">
+                    <li>
                                             <i class="fa fa-home"></i>
                                             <a href="{% url 'list_place' %}">Home</a>
                                         </li>
@@ -20,7 +34,9 @@
                                         <li class="active">
                                             <i class="fa fa-table"></i> Create Place
                                         </li>
-                                    </ol>
+                </ol>
+                <!--~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~-->
+                <!--End breadcrumb-->
 
 {% endblock %}
 

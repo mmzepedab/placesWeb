@@ -122,9 +122,22 @@ def logoutView(request):
         print('logout done')
     return render(request, 'about.html')
 
-class PlaceDetailView(DetailView):
-    model = Place
-    template_name = 'place/place_detail.html'
+#class PlaceDetailView(DetailView):
+#    model = Place
+#    template_name = 'place/place_detail.html'
+
+def place_detail(request, place_id):
+    #place = Place.objects.get(pk=place_id)
+    place = get_object_or_404(Place, pk=place_id)
+    placeSubscribers = PlaceSubscriber.objects.all().filter(place=place).values(
+        'user__full_name',
+        'user__email',
+        'user__ionic_id',
+        'place__name',
+        'date_subscribed',
+        'pk'
+    )
+    return render(request, 'place/place_detail.html', {'place': place, 'placeSubscribers': placeSubscribers})
 
 class PlaceDetailBarcodeView(DetailView):
     model = Place

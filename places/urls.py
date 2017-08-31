@@ -22,7 +22,8 @@ urlpatterns = [
     url(r'^place/list/$', views.place_list, name='list_place'),
     url(r'^place/create/$', views.place_create, name='create_place'),
     url(r'^place/update/(?P<pk>\d+)$', views.place_update, name='update_place'),
-    url(r'^place/(?P<pk>\d+)$', views.PlaceDetailView.as_view(), name='detail_place'),
+    #url(r'^place/(?P<pk>\d+)$', views.PlaceDetailView.as_view(), name='detail_place'),
+    url(r'^place/(?P<place_id>\d+)$', views.place_detail, name='detail_place'),
     url(r'^place/(?P<pk>\d+)/barcode', views.PlaceDetailBarcodeView.as_view(), name='detail_place_barcode'),
     url(r'^place/delete/(?P<pk>\d+)/$', views.place_delete, name='delete_place'),
     # Offer urls

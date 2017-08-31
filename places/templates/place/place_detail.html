@@ -27,14 +27,12 @@
 
 
 {% block title %}
-    {{ object.name }}
+    {{ place.name }}
 {% endblock %}
-{% block head %}{{ object.name }}{% endblock %}
-{% block head_subtitle %}{{ object.description }}{% endblock %}
+{% block head %}{{ place.name }}{% endblock %}
+{% block head_subtitle %}{{ place.description }}{% endblock %}
 
 {% block content %}
-
-
 
 
 
@@ -67,29 +65,29 @@
                                 <div class="panel panel-default">
                                     <div class="panel-body">
                                     <div class="row form-group">
-                                        <div class="col-md-6"> <b>Name: </b>{{ object.name }} </div>
-                                        <div class="col-md-6"> <b>Type: </b>{{ object.get_place_type_id_display }} </div>
+                                        <div class="col-md-6"> <b>Name: </b>{{ place.name }} </div>
+                                        <div class="col-md-6"> <b>Type: </b>{{ place.get_place_type_id_display }} </div>
 
                                         </div>
 
                                     <div class="row form-group">
-                                        <div class="col-md-6"> <b>Phone number: </b>{{ object.phone_number }} </div>
-                                        <div class="col-md-6"> <b>Email: </b>{{ object.email }} </div>
+                                        <div class="col-md-6"> <b>Phone number: </b>{{ place.phone_number }} </div>
+                                        <div class="col-md-6"> <b>Email: </b>{{ place.email }} </div>
 
                                         </div>
 
                                     <div class="row form-group">
-                                        <div class="col-md-6"> <b>Description: </b>{{ object.description }} </div>
-                                        <div class="col-md-6"> <b>Address: </b>{{ object.address }} </div>
+                                        <div class="col-md-6"> <b>Description: </b>{{ place.description }} </div>
+                                        <div class="col-md-6"> <b>Address: </b>{{ place.address }} </div>
                                         </div>
 
                                     <div class="row">
                                         <div class="col-md-4"> <b>Thumbnail: </b>
-                                        <img class="img-responsive" width="200" height="200" src="{{ object.image_thumbnail.url }}" alt="Card image cap"> </div>
+                                        <img class="img-responsive" width="200" height="200" src="{{ place.image_thumbnail.url }}" alt="Card image cap"> </div>
                                         <div class="col-md-4"> <b>Image: </b>
-                                        <img class="img-responsive" width="200" height="200" src="{{ object.image.url }}" alt="Card image cap"> </div>
+                                        <img class="img-responsive" width="200" height="200" src="{{ place.image.url }}" alt="Card image cap"> </div>
                                         <div class="col-md-4"> <b>Cover Image: </b>
-                                        <img class="img-responsive" src="{{ object.image_cover.url }}" alt="Card image cap"> </div>
+                                        <img class="img-responsive" src="{{ place.image_cover.url }}" alt="Card image cap"> </div>
 
                                         </div>
 
@@ -153,9 +151,9 @@
             <div class="panel panel-default" id="subscribers">
                 <div class="panel-heading">
                     <div class="panel-heading clearfix">
-                      <h4 class="panel-title pull-left" style="padding-top: 7.5px;">Subscribers ({{ place.subscribers.count }})</h4>
+                      <h4 class="panel-title pull-left" >Subscribers ({{ place.subscribers.count }})</h4>
                           <div class="pull-right">
-                            <a href="{% url 'add_offer_to_place' pk=place.pk %}" class="btn btn-success btn-sm"><i class="fa fa-plus fa-fw"></i></a>
+                            <a href="{% url 'add_offer_to_place' pk=place.pk %}" class="btn btn-success btn-sm" ><span>Create</span></a>
                           </div>
                     </div>
                 </div>
@@ -163,24 +161,20 @@
 
                     <div class="list-group">
                     <!-- TODO fix the placesubscriber date subscribed and add to the view -->
-                    {% for each in place.placesubscriber_set.all %}
-                        {{ each.date_subscribed }}
-                    {% endfor %}
 
-
-                    {% for o in place.subscribers.all %}
+                    {% for placeSubscriber in placeSubscribers %}
 
                         <a href="#" class="list-group-item clearfix">
                                 <span class="pull-left">
                                     {{ forloop.counter }}. &emsp;
                                 </span>
                                 <span class="pull-left">
-                                    <strong>{{ o.full_name }}</strong>
-                                    <p>Email: <i>{{ o.email }}</i> | Date Subscribed: <i> {{ o.place__placesubscriber__date_subscribed }} </i> </p>
+                                    <strong>{{ placeSubscriber.user__full_name }}</strong>
+                                    <p>Email: <i>{{ placeSubscriber.user__email }}</i> | Date Subscribed: <i> {{ placeSubscriber.date_subscribed }} </i> </p>
                                 </span>
                                 <span class="pull-right">
-                                  <span class="btn btn-xs btn-primary" onclick="sendPushNotificationToUser('{{ o.ionic_id }}'); return false;">Send Message</span>
-                                    <span class="btn btn-xs btn-danger" onclick="deletePlaceUser({{ place.id }}, {{ o.id }}); return false;  ">
+                                  <span class="btn btn-xs btn-primary" onclick="sendPushNotificationToUser('{{ placeSubscriber.user__ionic_id }}'); return false;">Send Message</span>
+                                    <span class="btn btn-xs btn-danger" onclick="deletePlaceUser({{ place.id }}, {{ placeSubscriber.pk }}); return false;  ">
                                         Unsubscribe
                                     </span>
 
@@ -270,14 +264,14 @@ function myMap() {
         var message = prompt("Please enter the push notification message", "Message");
 
 
-        var jsonObject = {
+        var jsonplace = {
                       "user_ids": [ionic_id],
                       "profile": "placesappdev",
                       "notification": {
                         "title": "Places App",
                         "message": message,
                         "android": {
-                          "title": "{{ object.name }}",
+                          "title": "{{ place.name }}",
                           "message": message
                         },
                         "ios": {
@@ -292,7 +286,7 @@ function myMap() {
             $.ajax({
                 url: 'https://api.ionic.io/push/notifications',
                 type: 'post',
-                data: JSON.stringify(jsonObject),
+                data: JSON.stringify(jsonplace),
                 headers: {
                     "Accept" : "application/json; charset=utf-8",
                     "Content-Type": "application/json; charset=utf-8",
